@@ -15,6 +15,7 @@ public class ExampleAccountManagement {
 	// 5) Remove any spaces in between username before storing into
 	//		usernames array.
 	
+	static String[] usernames = new String[5];
 	static String[] emails = new String[5];
 	static String[] passwords = new String[5];
 	static Scanner scanner = new Scanner(System.in);
@@ -63,7 +64,12 @@ public class ExampleAccountManagement {
 			System.out.println("Email Address:");
 			email = scanner.nextLine();
 			if(email.toLowerCase().endsWith("@pb.edu.bn")) {
-				break;
+				if(email.indexOf("@") == email.lastIndexOf("@")) {
+					email = email.trim().replace(" ", "");
+					break;
+				} else {
+					System.out.println("Invalid email.");
+				}
 			} else {
 				System.out.println("Must use pb email.");
 			}
@@ -82,6 +88,7 @@ public class ExampleAccountManagement {
 			}
 		}
 		System.out.println("Registration Complete");
+		usernames[numberRegistered] = email.substring(0, email.indexOf("@pb.edu.bn"));
 		emails[numberRegistered] = email;
 		passwords[numberRegistered] = password;
 		numberRegistered++;
@@ -89,12 +96,17 @@ public class ExampleAccountManagement {
 	
 	public static void login() {
 		System.out.println("Login:");
-		System.out.println("Email Address:");
+		System.out.println("Email Address or Username:");
 		String email = scanner.nextLine();
 		System.out.println("Password:");
 		String password = scanner.nextLine();
 		for(int i = 0; i < 5; i++) {
 			if(email.equalsIgnoreCase(emails[i])
+					&& password.equals(passwords[i])) {
+				System.out.println("You are logged in.");
+				return;
+			}
+			if(email.equalsIgnoreCase(usernames[i])
 					&& password.equals(passwords[i])) {
 				System.out.println("You are logged in.");
 				return;
